@@ -73,15 +73,15 @@ private static void novaLinia() {
 		bbdd.print(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '"+codiProd+"'", y);
 		
 		//Hacer select stock
-//		String x[] = {"STOCK"};
-//		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_LINTIQ", x);
-		
-//		if (stockDisponible[0].equals("0")) {
-//			bbdd.datoEncontrado = true;
-//			
-//		}else if (codiProd.equals("XXX")) {
-//			bbdd.datoEncontrado = true;
-//		}
+		String x[] = {"STOCK"};
+		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_LINTIQ", x);
+
+		if (stockDisponible[0].equals("0")) {
+			bbdd.datoEncontrado = true;
+			
+		}else if (codiProd.equals("XXX")) {
+			bbdd.datoEncontrado = true;
+		}
 	}
 	bbdd.datoEncontrado = false;
 	System.out.println("Hola");
