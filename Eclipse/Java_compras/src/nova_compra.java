@@ -59,7 +59,7 @@ private static void CrearTiquet(int client) {
 	 int numt = Integer.parseInt(b[0]) +1;
 
 	 bbdd.insert(con, "INSERT INTO PRF_TIQUET  (\"NUMT\", \"DATAT\", \"CLIENTE\", \"IDE\" , \"IMPORT_TOT\", \"PUNTS_TIQ\" )\n"
-	 + "VALUES ("+ numt +" , SYSDATE , " + client + ", 1 ,0, 0 )");
+	 + "VALUES ("+ numt +" , SYSDATE , " + client + ", 1 ,0, 0 )");	
 	
 }
 
@@ -67,6 +67,8 @@ private static void CrearTiquet(int client) {
 
 private static void novaLinia() {
 	System.out.println("Por favor, escriba el código de un producto");
+	
+	//Comprovar si existe el tiquet
 	while (bbdd.datoEncontrado == false) {
 		String codiProd = scan_s.nextLine();
 		String y[] = {"NOMPR", "PREUD1", "STOCK"};
@@ -76,15 +78,17 @@ private static void novaLinia() {
 		String x[] = {"STOCK"};
 		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '"+codiProd+"'", x);
 
+		
 		if (stockDisponible[0].equals("0")) {
-			bbdd.datoEncontrado = true;
+			System.out.println("Lo siento, el producto está agotado.");
 			
-		}else if (codiProd.equals("XXX")) {
+		}
+		else if (codiProd.equals("XXX")) {
 			bbdd.datoEncontrado = true;
 		}
+		
 	}
 	bbdd.datoEncontrado = false;
-	System.out.println("Hola");
 	
 }
 
