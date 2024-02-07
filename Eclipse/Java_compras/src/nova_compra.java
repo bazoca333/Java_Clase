@@ -74,7 +74,7 @@ private static void novaLinia() {
 		
 		//Hacer select stock
 		String x[] = {"STOCK"};
-		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_LINTIQ", x);
+		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '"+codiProd+"'", x);
 
 		if (stockDisponible[0].equals("0")) {
 			bbdd.datoEncontrado = true;
