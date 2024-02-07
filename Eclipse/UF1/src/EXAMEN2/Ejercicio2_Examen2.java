@@ -3,7 +3,7 @@ package EXAMEN2;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
-
+//hola
 public class Ejercicio2_Examen2 {
 	public static void main(String[] args) {
 
