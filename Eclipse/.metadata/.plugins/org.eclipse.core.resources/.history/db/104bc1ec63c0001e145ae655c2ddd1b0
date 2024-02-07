@@ -1,0 +1,38 @@
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.util.Scanner;
+
+import oracle.sql.DATE;
+
+public class nova_compra {
+	
+	
+public static void main(String[] args) {
+	Scanner scan = new Scanner(System.in);
+	Connection con = bbdd.conectarBaseDatos();
+	int numClient = 0;
+    LocalDate fechaActual = LocalDate.now();
+    System.out.println(fechaActual);
+	
+
+	while (bbdd.userEncontrado == false) {
+		System.out.println("Porfavor, introduzca su código de cliente");
+		numClient = scan.nextInt();
+		String[] a = {"Nom", "Cognoms"};
+	    bbdd.print(con, "SELECT nom, cognoms FROM PRFIN_CLIENT where numcli = " + numClient, a);
+
+	}
+	
+ 
+	 String x[] = {"NUMT"};
+	 String[] b = bbdd.select(con, "SELECT NUMT FROM PRFIN_TIQUET", x);
+
+	 int numt = Integer.parseInt(b[0]) +1;
+
+	 bbdd.insert(con, "INSERT INTO PRFIN_TIQUET  (\"NUMT\", \"DATAT\", \"CLIENTE\", \"IDE\" , \"IMPORT_TOT\", \"PUNTS_TIQ\" )\n"
+	 + "VALUES ("+ numt +" , SYSDATE , " + numClient + ", 0 ,0, 0 )");
+	
+	
+
+}
+}
