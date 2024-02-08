@@ -201,8 +201,9 @@ private static void anularLinia() {
 			continue;
 		}else {
 			System.out.println("-------Línea de tiquet " + i + "-------");
-			String[] a = {"NUMTIQ", "NUMLIN", "PROD", "QUANTITAT", "TOTLIN"};
-		    bbdd.print(con, "SELECT * FROM PRF_LINTIQ where NUMTIQ = " + numt + "AND numlin = " + i , a);
+			String[] a = {"NUMTIQ", "NUMLIN", "NOMPR", "QUANTITAT", "TOTLIN"};
+		    bbdd.print(con, "SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l "
+		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + "AND l.numlin = " + i , a);
 		    System.out.println("-------------------------------");
 		}
 
