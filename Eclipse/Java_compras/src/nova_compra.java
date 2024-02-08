@@ -207,6 +207,22 @@ private static void anularLinia() {
 		}
 
 	}
+	
+	
+	boolean inputValid = false;
+	while (!inputValid) {
+		System.out.println("Qué linea desea eliminar?");
+		
+		if (scan.hasNextInt()) {
+            int deleteLinea = scan.nextInt();
+            inputValid = true;
+        } else {
+            System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
+            scan.next();
+        }
+	}
+	
+	//Continuar aqui
 
 }
 
