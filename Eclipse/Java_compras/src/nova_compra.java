@@ -197,15 +197,17 @@ private static void anularLinia() {
 	}
 
 	for (int i = 0; i < numlin; i++) {
-		if (i == 0) {
-			continue;
-		}else {
-			System.out.println("-------Línea de tiquet " + i + "-------");
+//		if (i == 0) {
+//			continue;
+//		}else {
+			System.out.println("-------Línea de tiquet " + (i+1) + "-------");
 			String[] a = {"NUMTIQ", "NUMLIN", "NOMPR", "QUANTITAT", "TOTLIN"};
 		    bbdd.print(con, "SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l "
-		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + "AND l.numlin = " + i , a);
+		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + " AND l.numlin = " + (i+1) , a);
+		    
+		    System.out.println("SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + "AND l.numlin = " + (i+1));
 		    System.out.println("-------------------------------");
-		}
+//		}
 
 	}
 	
