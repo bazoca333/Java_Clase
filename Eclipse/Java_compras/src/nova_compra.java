@@ -19,27 +19,16 @@ public class nova_compra {
 	private static float totlin = 0;
 	
 public static void main(String[] args) {
-	int numClient = 1;
-    LocalDate fechaActual = LocalDate.now();
+	int numClient = 0;
    	
 //Hacer un select hasta que encuentre un cliente válido
 	while (bbdd.datoEncontrado == false) {
-		boolean inputValid = false;
-		while (!inputValid) {
-			System.out.println("----------------------------------------------------------");
-			System.out.println("Porfavor, introduzca su código de cliente");
-			System.out.println("----------------------------------------------------------");
-			
-			if (scan.hasNextInt()) {
-                numClient = scan.nextInt();
-                inputValid = true;
-            } else {
-                System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
-                scan.next();
-            }
-		}
+		System.out.println("----------------------------------------------------------");
+		System.out.println("Porfavor, introduzca su código de cliente");
+		System.out.println("----------------------------------------------------------");
 		
-		
+        numClient = getInput(scan);
+
 		String[] a = {"NOM", "COGNOMS"};
 	    bbdd.print(con, "SELECT NOM, COGNOMS FROM PRF_CLIENT where NUMCLI = " + numClient , a);
 
@@ -54,23 +43,12 @@ public static void main(String[] args) {
 }
 private static void mostrarMenu() {
 	int eleccion = 0;
-	boolean inputValid = false;
-	while (!inputValid) {
-		System.out.println("-----SUBMENÚ PER FER UNA COMPRA-----");
-		System.out.println("1. Nova línia de compra  ");
-		System.out.println("2. Anul·lació de línia de compra ");
-		System.out.println("3. Finalitzar compra i generar tiquet");
-		
-		if (scan.hasNextInt()) {
-			eleccion = scan.nextInt();
-			inputValid = true;
-        } else {
-            System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
-            scan.next();
-        }
-	}
+	System.out.println("-----SUBMENÚ PER FER UNA COMPRA-----");
+	System.out.println("1. Nova línia de compra  ");
+	System.out.println("2. Anul·lació de línia de compra ");
+	System.out.println("3. Finalitzar compra i generar tiquet");
+	eleccion = getInput(scan);
 	
-
 	switch (eleccion) {
 	case 1:
 		novaLinia();
@@ -204,26 +182,14 @@ private static void anularLinia() {
 			String[] a = {"NUMTIQ", "NUMLIN", "NOMPR", "QUANTITAT", "TOTLIN"};
 		    bbdd.print(con, "SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l "
 		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + " AND l.numlin = " + (i+1) , a);
-		    
-		    System.out.println("SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + "AND l.numlin = " + (i+1));
 		    System.out.println("-------------------------------");
 //		}
 
 	}
 	
-	
-	boolean inputValid = false;
-	while (!inputValid) {
-		System.out.println("Qué linea desea eliminar?");
-		
-		if (scan.hasNextInt()) {
-            int deleteLinea = scan.nextInt();
-            inputValid = true;
-        } else {
-            System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
-            scan.next();
-        }
-	}
+	System.out.println("Qué linea desea eliminar?");
+	int deleteLinea = getInput(scan);
+	System.out.println(deleteLinea);
 	
 	//Continuar aqui
 
@@ -231,6 +197,23 @@ private static void anularLinia() {
 
 private static void finalitzarCompra() {
 	
+}
+
+public static int getInput(Scanner scanner) {
+    boolean inputValid = false;
+    int eleccion = 0;
+
+    while (!inputValid) {
+        if (scanner.hasNextInt()) {
+            eleccion = scanner.nextInt();
+            inputValid = true;
+        } else {
+            System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
+            scanner.next(); // Limpiar el buffer del scanner
+        }
+    }
+
+    return eleccion;
 }
 
 
