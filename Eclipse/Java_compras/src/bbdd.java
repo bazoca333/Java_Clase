@@ -10,7 +10,7 @@ public class bbdd {
 	private static final String USER = "DAM1_2324_MIL_ALVARO";
 	private static final String PWD = "49940455A";
 	// Si estáis desde casa, la url será oracle.ilerna.com y no 192.168.3.26
-	private static final String URL = "jdbc:oracle:thin:@oracle.ilerna.com:1521:xe";
+	private static final String URL = "jdbc:oracle:thin:@192.168.3.26:1521:xe";
 
 
     /**
@@ -50,7 +50,7 @@ public class bbdd {
 			Statement st = con.createStatement();
 			st.execute(sql);
 			
-			System.out.println("Insert hecho correctamente");
+			//System.out.println("Insert hecho correctamente");
 		} catch (SQLException e) {
 			System.out.println("Ha habido un error en el Insert " + e);
 		}
@@ -67,7 +67,7 @@ public class bbdd {
 			Statement st = con.createStatement();
 			st.execute(sql);
 			
-			System.out.println("Update hecho correctamente");
+			//System.out.println("Update hecho correctamente");
 		} catch (SQLException e) {
 			System.out.println("Ha habido un error en el Update " + e);
 		}
@@ -115,7 +115,7 @@ public class bbdd {
 				}
 				return arrayS;
 			} else {
-				System.out.println("No se ha encontrado nada");
+				//System.out.println("No se ha encontrado nada");
 				
 			}
 

@@ -29,13 +29,15 @@ public class menu {
 //		for (int i = 0; i < a.length; i++) {
 //			System.out.println("Columna " + a[i] + " resultado " + b[i]);
 //		}
-	
+		System.out.println("----------------------------------------------------------");
 		System.out.println("MENÚ");
 		System.out.println("1. Nova compra");
 		System.out.println("2. Devolució d’una compra");
 		System.out.println("3. Consulta de punts");	
 		System.out.println("4. Consultar d’historial de compres");
 		System.out.println("5. Sortir");
+		System.out.println("----------------------------------------------------------");
+
 
 		int eleccion = scan.nextInt();
 		switch (eleccion) {

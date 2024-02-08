@@ -10,8 +10,12 @@ public class nova_compra {
 	private static Scanner scan_s = new Scanner(System.in);
 	
 	private static String codiProd = "";
-	private static String codBarresProd = "";
 	private static int stockProducto = 0;
+	
+	private static int numt = 0;
+	private static int numlin = 0;
+	private static String cantProducto = "";
+	private static float totlin = 0;
 	
 public static void main(String[] args) {
 	int numClient = 1;
@@ -19,11 +23,22 @@ public static void main(String[] args) {
    	
 //Hacer un select hasta que encuentre un cliente válido
 	while (bbdd.datoEncontrado == false) {
-		System.out.println("----------------------------------------------------------");
-		System.out.println("Porfavor, introduzca su código de cliente");
-		System.out.println("----------------------------------------------------------");
-
-		numClient = scan.nextInt();
+		boolean inputValid = false;
+		while (!inputValid) {
+			System.out.println("----------------------------------------------------------");
+			System.out.println("Porfavor, introduzca su código de cliente");
+			System.out.println("----------------------------------------------------------");
+			
+			if (scan.hasNextInt()) {
+                numClient = scan.nextInt();
+                inputValid = true;
+            } else {
+                System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
+                scan.next();
+            }
+		}
+		
+		
 		String[] a = {"NOM", "COGNOMS"};
 	    bbdd.print(con, "SELECT NOM, COGNOMS FROM PRF_CLIENT where NUMCLI = " + numClient , a);
 
@@ -37,12 +52,24 @@ public static void main(String[] args) {
 
 }
 private static void mostrarMenu() {
-	System.out.println("-----SUBMENÚ PER FER UNA COMPRA-----");
-	System.out.println("1. Nova línia de compra  ");
-	System.out.println("2. Anul·lació de línia de compra ");
-	System.out.println("3. Finalitzar compra i generar tiquet");	
+	int eleccion = 0;
+	boolean inputValid = false;
+	while (!inputValid) {
+		System.out.println("-----SUBMENÚ PER FER UNA COMPRA-----");
+		System.out.println("1. Nova línia de compra  ");
+		System.out.println("2. Anul·lació de línia de compra ");
+		System.out.println("3. Finalitzar compra i generar tiquet");
+		
+		if (scan.hasNextInt()) {
+			eleccion = scan.nextInt();
+			inputValid = true;
+        } else {
+            System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
+            scan.next();
+        }
+	}
 	
-	int eleccion = scan.nextInt();
+
 	switch (eleccion) {
 	case 1:
 		novaLinia();
@@ -62,7 +89,7 @@ private static void CrearTiquet(int client) {
 	 String[] b = bbdd.select(con, "SELECT NUMT FROM PRF_TIQUET", x);
 
 
-	 int numt = Integer.parseInt(b[0]) +1;
+	 numt = Integer.parseInt(b[0]) +1;
 
 	 bbdd.insert(con, "INSERT INTO PRF_TIQUET  (\"NUMT\", \"DATAT\", \"CLIENTE\", \"IDE\" , \"IMPORT_TOT\", \"PUNTS_TIQ\" )\n"
 	 + "VALUES ("+ numt +" , SYSDATE , " + client + ", 1 ,0, 0 )");	
@@ -74,6 +101,7 @@ private static void CrearTiquet(int client) {
 private static void novaLinia() {
     boolean productoAgotado = true;
     boolean continuar = true;
+    boolean crearLinia = false;
     while (productoAgotado) {
 		System.out.println("----------------------------------------------------------");
         System.out.println("---Por favor, escriba el código de un producto---");
@@ -113,24 +141,48 @@ private static void novaLinia() {
         	System.out.println("'XXX' para salir");
     		System.out.println("----------------------------------------------------------");
 
-            String cantProducto = scan_s.nextLine().toUpperCase();
+            cantProducto = scan_s.nextLine().toUpperCase();
             
             if (cantProducto.equals("XXX")) {
               	 continuar = false;
-       		}else {
+       		}else if (cantProducto.equals("0")) {
+				System.out.println("Ingrese un número válido");
+			}else {	
                 if (Integer.parseInt(cantProducto) <= stockProducto) {
-                	continuar = false;
+                	crearLinia = true;
+                	continuar = false;          
         		}else {
         			System.out.println("Lo siento, no hay suficiente stock.");
         		}
 			}
-            
+		}
+    	
+    	if (crearLinia) {
+    		String x[] = {"NUMLIN"};
+    		String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
 
+    		if (b.length > 0 && b[0].length() > 0) {
+    		    numlin = Integer.parseInt(b[0]) + 1;
+    		} else {
+    		    numlin = 1;
+    		}
+
+    		//Buscar el precio del producto y multiplicarlo por la cantidad
+    		String y[] = {"PREUD1"};
+    		String[] preuObj = bbdd.select(con, "SELECT PREUD1 FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", y);
+    		totlin = Float.parseFloat(preuObj[0]) * Integer.parseInt(cantProducto);
+
+    		//Crear insert a la PRF_LINTIQ
+    		 bbdd.insert(con, "INSERT INTO PRF_LINTIQ  (NUMTIQ, NUMLIN, PROD, QUANTITAT , TOTLIN)\n"
+    		 + "VALUES ("+ numt +" , " + numlin + " , " + codiProd + ", " + Integer.parseInt(cantProducto) + " ," + totlin + ")");	
+
+    		 
+    		 bbdd.update(con, "UPDATE PRF_PRODUCT SET STOCK = (SELECT STOCK FROM PRF_PRODUCT WHERE CODBARRES = '" + codiProd + "') - " + cantProducto + " WHERE CODBARRES = '" + codiProd + "'");
 		}
 
-
+    	mostrarMenu();
 	}
-    }
+    }//FIN
 
 
 private static void anularLinia() {
@@ -140,7 +192,6 @@ private static void anularLinia() {
 private static void finalitzarCompra() {
 	
 }
-
 
 
 }//FIN
