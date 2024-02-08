@@ -77,19 +77,27 @@ private static void novaLinia() {
        	 productoAgotado = false;
 		}else {
 	        String y[] = {"NOMPR", "PREUD1", "STOCK"};
-	        bbdd.print(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", y);
-	       
-	        // Hacer select stock
-	        String x[] = {"STOCK"};
-	        String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", x);
-	        System.out.println(stockDisponible[0]);
-	        if (stockDisponible[0].equals("0")) {
-	            System.out.println("Lo siento, el producto está agotado.");
-	        } else {
-	            productoAgotado = false; 
-	        }
+	        String[] checkProduct = bbdd.select(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", y);
+	        if (checkProduct.length > 0) {
+		        bbdd.print(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", y);
+			       
+		        // Hacer select stock
+		        String x[] = {"STOCK"};
+		        String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", x);
+		        if (stockDisponible.length > 0 && stockDisponible[0].equals("0")) {
+		            System.out.println("Lo siento, el producto está agotado.");
+		        } else {
+		            productoAgotado = false; 
+		        }
+			}else {
+                System.out.println("El producto no existe");
+
+			}
+
 		}
     }
+    
+    System.out.println("Cuántas unidades del producto le gustaría comprar?");
     
 }
 
