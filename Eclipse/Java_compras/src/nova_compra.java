@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import oracle.sql.DATE;
@@ -186,7 +187,27 @@ private static void novaLinia() {
 
 
 private static void anularLinia() {
+	String x[] = {"NUMLIN"};
+	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
 	
+	if (b.length > 0 && b[0].length() > 0) {
+	    numlin = Integer.parseInt(b[0]);
+	} else {
+	    System.out.println("No hay líneas de este tiquet");
+	}
+
+	for (int i = 0; i < numlin; i++) {
+		if (i == 0) {
+			continue;
+		}else {
+			System.out.println("-------Línea de tiquet " + i + "-------");
+			String[] a = {"NUMTIQ", "NUMLIN", "PROD", "QUANTITAT", "TOTLIN"};
+		    bbdd.print(con, "SELECT * FROM PRF_LINTIQ where NUMTIQ = " + numt + "AND numlin = " + i , a);
+		    System.out.println("-------------------------------");
+		}
+
+	}
+
 }
 
 private static void finalitzarCompra() {
