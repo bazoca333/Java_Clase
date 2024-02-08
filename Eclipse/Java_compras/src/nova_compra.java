@@ -66,31 +66,33 @@ private static void CrearTiquet(int client) {
 //OPCIONES SUBMENÚ
 
 private static void novaLinia() {
-	System.out.println("Por favor, escriba el código de un producto");
-	
-	//Comprovar si existe el tiquet
-	while (bbdd.datoEncontrado == false) {
-		String codiProd = scan_s.nextLine();
-		String y[] = {"NOMPR", "PREUD1", "STOCK"};
-		bbdd.print(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '"+codiProd+"'", y);
-		
-		//Hacer select stock
-		String x[] = {"STOCK"};
-		String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '"+codiProd+"'", x);
+    boolean productoAgotado = true;
 
-		
-		if (stockDisponible[0].equals("0")) {
-			System.out.println("Lo siento, el producto está agotado.");
-			
+    while (productoAgotado) {
+        System.out.println("---Por favor, escriba el código de un producto---");
+        System.out.println("'XXX' para salir");
+        String codiProd = scan_s.nextLine().toUpperCase();
+        
+        if (codiProd.equals("XXX")) {
+       	 productoAgotado = false;
+		}else {
+	        String y[] = {"NOMPR", "PREUD1", "STOCK"};
+	        bbdd.print(con, "SELECT NOMPR, PREUD1, STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", y);
+	       
+	        // Hacer select stock
+	        String x[] = {"STOCK"};
+	        String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", x);
+	        System.out.println(stockDisponible[0]);
+	        if (stockDisponible[0].equals("0")) {
+	            System.out.println("Lo siento, el producto está agotado.");
+	        } else {
+	            productoAgotado = false; 
+	        }
 		}
-		else if (codiProd.equals("XXX")) {
-			bbdd.datoEncontrado = true;
-		}
-		
-	}
-	bbdd.datoEncontrado = false;
-	
+    }
+    
 }
+
 
 private static void anularLinia() {
 	
