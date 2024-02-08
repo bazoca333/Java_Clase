@@ -10,6 +10,7 @@ public class nova_compra {
 	private static Scanner scan_s = new Scanner(System.in);
 	
 	private static String codiProd = "";
+	private static String codBarresProd = "";
 	private static int stockProducto = 0;
 	
 public static void main(String[] args) {
@@ -118,7 +119,7 @@ private static void novaLinia() {
               	 continuar = false;
        		}else {
                 if (Integer.parseInt(cantProducto) <= stockProducto) {
-        			
+                	continuar = false;
         		}else {
         			System.out.println("Lo siento, no hay suficiente stock.");
         		}
