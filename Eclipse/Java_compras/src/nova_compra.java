@@ -10,6 +10,7 @@ public class nova_compra {
 	private static Scanner scan = new Scanner(System.in);
 	private static Scanner scan_s = new Scanner(System.in);
 	
+	private static int numClient = 0;
 	private static String codiProd = "";
 	private static int stockProducto = 0;
 	
@@ -19,7 +20,7 @@ public class nova_compra {
 	private static float totlin = 0;
 	
 public static void main(String[] args) {
-	int numClient = 0;
+	
    	
 //Hacer un select hasta que encuentre un cliente válido
 	while (bbdd.datoEncontrado == false) {
@@ -187,7 +188,13 @@ private static void anularLinia() {
 }
 
 private static void finalitzarCompra() {
-	
+	System.out.println("-----Tiquet número "+numt+": -----");
+	String[] a = {"NUMT", "DATAT", "NOM", "COGNOMS"};
+    bbdd.print(con, "SELECT numt, datat, c.nom, c.cognoms  FROM PRF_TIQUET t INNER JOIN PRF_CLIENT c ON c.numcli = t.cliente WHERE numt = " + numt , a);
+    System.out.println("-------------------------------");
+
+    mostrarLineas();
+    mostrarMenu();
 }
 
 
