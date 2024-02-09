@@ -169,36 +169,47 @@ private static void anularLinia() {
 	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
 	
 	if (b.length > 0 && b[0].length() > 0) {
-	    numlin = Integer.parseInt(b[0]);
-	} else {
-	    System.out.println("No hay líneas de este tiquet");
+		mostrarLineas();
+		System.out.println("Qué linea desea eliminar?");
+		int deleteLinea = getInput(scan);	
+		bbdd.delete(con, "DELETE FROM PRF_LINTIQ WHERE NUMLIN = " + deleteLinea);
+		
+		System.out.println();
+		System.out.println("-----LINEAS RESTANTES: -----");
+		System.out.println();
+		mostrarLineas();
+
+	}else {
+		mostrarLineas();
 	}
-
-	for (int i = 0; i < numlin; i++) {
-//		if (i == 0) {
-//			continue;
-//		}else {
-			System.out.println("-------Línea de tiquet " + (i+1) + "-------");
-			String[] a = {"NUMTIQ", "NUMLIN", "NOMPR", "QUANTITAT", "TOTLIN"};
-		    bbdd.print(con, "SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l "
-		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + " AND l.numlin = " + (i+1) , a);
-		    System.out.println("-------------------------------");
-//		}
-
-	}
-	
-	System.out.println("Qué linea desea eliminar?");
-	int deleteLinea = getInput(scan);
-	System.out.println(deleteLinea);
-	
-	//Continuar aqui
-
+	System.out.println();
+	mostrarMenu();
 }
 
 private static void finalitzarCompra() {
 	
 }
 
+
+private static void mostrarLineas() {
+	String x[] = {"NUMLIN"};
+	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
+	
+	if (b.length > 0 && b[0].length() > 0) {
+	    numlin = Integer.parseInt(b[0]);
+		for (int i = 0; i < numlin; i++) {
+			System.out.println("-------Línea de tiquet " + (i+1) + "-------");
+			String[] a = {"NUMTIQ", "NUMLIN", "NOMPR", "QUANTITAT", "TOTLIN"};
+		    bbdd.print(con, "SELECT NUMTIQ, NUMLIN, NOMPR, QUANTITAT, TOTLIN FROM PRF_LINTIQ l "
+		    		+ "INNER JOIN PRF_PRODUCT p ON l.prod = p.CODBARRES  where l.NUMTIQ = " + numt + " AND l.numlin = " + (i+1) , a);
+		    System.out.println("-------------------------------");
+	}
+	} else {
+	    System.out.println("No hay líneas de este tiquet");
+	}
+	
+
+}
 public static int getInput(Scanner scanner) {
     boolean inputValid = false;
     int eleccion = 0;
@@ -209,7 +220,7 @@ public static int getInput(Scanner scanner) {
             inputValid = true;
         } else {
             System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
-            scanner.next(); // Limpiar el buffer del scanner
+            scanner.next();
         }
     }
 
