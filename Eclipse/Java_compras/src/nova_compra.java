@@ -19,6 +19,9 @@ public class nova_compra {
 	private static String cantProducto = "";
 	private static float totlin = 0;
 	
+	private static float precioTotal = 0;
+	private static int totalPuntos = 0;
+	
 public static void main(String[] args) {
 	
    	
@@ -127,6 +130,8 @@ private static void novaLinia() {
               	 continuar = false;
        		}else if (cantProducto.equals("0")) {
 				System.out.println("Ingrese un número válido");
+			}else if (Integer.parseInt(cantProducto) < 0) {
+				System.out.println("Ingrese un número válido");
 			}else {	
                 if (Integer.parseInt(cantProducto) <= stockProducto) {
                 	crearLinia = true;
@@ -193,10 +198,36 @@ private static void finalitzarCompra() {
     bbdd.print(con, "SELECT numt, datat, c.nom, c.cognoms  FROM PRF_TIQUET t INNER JOIN PRF_CLIENT c ON c.numcli = t.cliente WHERE numt = " + numt , a);
     System.out.println("-------------------------------");
 
-    mostrarLineas();
+    //Buscar lineas para el for
+    String x[] = {"NUMLIN"};
+	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
+    
+	if (b.length > 0 && b[0].length() > 0) {
+	    numlin = Integer.parseInt(b[0]);
+		for (int i = 0; i < numlin; i++) {
+			String[] titulo = {"TOTLIN"};
+			String s = "SELECT TOTLIN FROM PRF_LINTIQ where numtiq = " + numt +" AND numlin = " + (i+1);
+			String[] eurosLinea = bbdd.select(con, s, titulo);
+		    //Sumo puntos y euros
+		    System.out.println(eurosLinea[0]);
+		    precioTotal += Float.parseFloat(eurosLinea[0]);
+		    
+		}
+	    totalPuntos = Math.round(precioTotal*10);
+		bbdd.update(con, "UPDATE PRF_Client SET TOTPUNTS = (SELECT TOTPUNTS FROM PRF_Client WHERE numcli = " + numClient + ") + " + totalPuntos + " WHERE numcli = " + numClient);
+
+	    
+	} else {
+	    System.out.println("No hay líneas de este tiquet");
+	}
+    
+    System.out.println("-----Total de la compra: " + String.format("%.2f", precioTotal) + "€");
+    System.out.println("-----Puntos agregados al usuario: " + totalPuntos);
+    System.out.println();
     mostrarMenu();
 }
 
+	
 
 private static void mostrarLineas() {
 	String x[] = {"NUMLIN"};
@@ -217,6 +248,7 @@ private static void mostrarLineas() {
 	
 
 }
+
 public static int getInput(Scanner scanner) {
     boolean inputValid = false;
     int eleccion = 0;

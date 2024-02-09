@@ -39,7 +39,7 @@ public class menu {
 		System.out.println("----------------------------------------------------------");
 
 
-		int eleccion = scan.nextInt();
+		int eleccion = nova_compra.getInput(scan);
 		switch (eleccion) {
 		case 1:
 			nova_compra.main(args);
