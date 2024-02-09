@@ -58,7 +58,7 @@ private static void mostrarMenu() {
 		novaLinia();
 		break;
 	case 2:
-		anularLinia();
+		anularLinia(); 
 		break;
 	case 3:
 		finalitzarCompra();
