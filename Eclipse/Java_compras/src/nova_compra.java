@@ -106,6 +106,7 @@ private static void novaLinia() {
 		        String x[] = {"STOCK"};
 		        String[] stockDisponible = bbdd.select(con, "SELECT STOCK FROM PRF_PRODUCT WHERE codbarres = '" + codiProd + "'", x);
 		        stockProducto = Integer.parseInt(stockDisponible[0]);
+		        
 		        if (stockDisponible.length > 0 && stockDisponible[0].equals("0")) {
 		            System.out.println("Lo siento, el producto está agotado.");
 		        } else {
