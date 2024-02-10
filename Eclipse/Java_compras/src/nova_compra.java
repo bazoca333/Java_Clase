@@ -90,7 +90,7 @@ private static void novaLinia() {
         System.out.println("---Por favor, escriba el código de un producto---");
         System.out.println("'XXX' para salir");
 		System.out.println("----------------------------------------------------------");
-
+ 
         codiProd = scan_s.nextLine().toUpperCase();
         
         if (codiProd.equals("XXX")) {
@@ -161,7 +161,6 @@ private static void novaLinia() {
     		 bbdd.insert(con, "INSERT INTO PRF_LINTIQ  (NUMTIQ, NUMLIN, PROD, QUANTITAT , TOTLIN)\n"
     		 + "VALUES ("+ numt +" , " + numlin + " , " + codiProd + ", " + Integer.parseInt(cantProducto) + " ," + totlin + ")");	
 
-    		 
     		 bbdd.update(con, "UPDATE PRF_PRODUCT SET STOCK = (SELECT STOCK FROM PRF_PRODUCT WHERE CODBARRES = '" + codiProd + "') - " + cantProducto + " WHERE CODBARRES = '" + codiProd + "'");
 		}
 
@@ -178,6 +177,11 @@ private static void anularLinia() {
 		mostrarLineas();
 		System.out.println("Qué linea desea eliminar?");
 		int deleteLinea = getInput(scan);	
+		//Buscar cantidad de producto
+		String[] cant = {"QUANTITAT", "PROD"};
+		String[] eurosLinea = bbdd.select(con, "SELECT QUANTITAT, PROD FROM PRF_LINTIQ where numtiq = " + numt +" AND numlin = " + deleteLinea, cant);
+		
+		bbdd.update(con, "UPDATE PRF_PRODUCT SET STOCK = STOCK + " + eurosLinea[0] + " WHERE CODBARRES = '" + eurosLinea[1] + "'");
 		bbdd.delete(con, "DELETE FROM PRF_LINTIQ WHERE NUMLIN = " + deleteLinea);
 		
 		System.out.println();
@@ -215,16 +219,18 @@ private static void finalitzarCompra() {
 		}
 	    totalPuntos = Math.round(precioTotal*10);
 		bbdd.update(con, "UPDATE PRF_Client SET TOTPUNTS = (SELECT TOTPUNTS FROM PRF_Client WHERE numcli = " + numClient + ") + " + totalPuntos + " WHERE numcli = " + numClient);
-
+		System.out.println();
+		System.out.println("-----Total de la compra: " + String.format("%.2f", precioTotal) + "€");
+	    System.out.println("-----Puntos agregados al usuario: " + totalPuntos);
+	    System.out.println();
+	    menu.main(a);;
 	    
 	} else {
 	    System.out.println("No hay líneas de este tiquet");
+	    System.out.println();
+	    mostrarMenu();
 	}
     
-    System.out.println("-----Total de la compra: " + String.format("%.2f", precioTotal) + "€");
-    System.out.println("-----Puntos agregados al usuario: " + totalPuntos);
-    System.out.println();
-    mostrarMenu();
 }
 
 	
