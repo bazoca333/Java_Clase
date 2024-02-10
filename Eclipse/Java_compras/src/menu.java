@@ -45,6 +45,9 @@ public class menu {
 			nova_compra.main(args);
 			break;
 
+		case 2:
+			Devolucio_compra.main(args);
+			break;
 		default:
 			break;
 		}
