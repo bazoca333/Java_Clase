@@ -51,6 +51,7 @@ private static void mostrarMenu() {
 	System.out.println("1. Nova línia de compra  ");
 	System.out.println("2. Anul·lació de línia de compra ");
 	System.out.println("3. Finalitzar compra i generar tiquet");
+	System.out.println("4. Sortir");
 	eleccion = getInput(scan);
 	
 	switch (eleccion) {
@@ -63,7 +64,8 @@ private static void mostrarMenu() {
 	case 3:
 		finalitzarCompra();
 		break;
-	default:
+	case 4:
+		menu.main(null);
 		break;
 	}
 }
@@ -175,7 +177,7 @@ private static void anularLinia() {
 	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
 	
 	if (b.length > 0 && b[0].length() > 0) {
-		mostrarLineas();
+		mostrarLineas(numt, numlin);
 		System.out.println("Qué linea desea eliminar?");
 		int deleteLinea = getInput(scan);	
 		//Buscar cantidad de producto
@@ -183,15 +185,15 @@ private static void anularLinia() {
 		String[] eurosLinea = bbdd.select(con, "SELECT QUANTITAT, PROD FROM PRF_LINTIQ where numtiq = " + numt +" AND numlin = " + deleteLinea, cant);
 		
 		bbdd.update(con, "UPDATE PRF_PRODUCT SET STOCK = STOCK + " + eurosLinea[0] + " WHERE CODBARRES = '" + eurosLinea[1] + "'");
-		bbdd.delete(con, "DELETE FROM PRF_LINTIQ WHERE NUMLIN = " + deleteLinea);
+		bbdd.delete(con, "DELETE FROM PRF_LINTIQ WHERE NUMLIN = " + deleteLinea + " AND numtiq = " + numt);
 		
 		System.out.println();
 		System.out.println("-----LINEAS RESTANTES: -----");
 		System.out.println();
-		mostrarLineas();
+		mostrarLineas(numt, numlin);
 
 	}else {
-		mostrarLineas();
+		mostrarLineas(numt, numlin);
 	}
 	System.out.println();
 	mostrarMenu();
@@ -219,7 +221,10 @@ private static void finalitzarCompra() {
 		    
 		}
 	    totalPuntos = Math.round(precioTotal*10);
+	    bbdd.update(con, "UPDATE PRF_TIQUET SET IMPORT_TOT = " + precioTotal + " WHERE numt = " + numt);
+	    bbdd.update(con, "UPDATE PRF_TIQUET SET PUNTS_TIQ = " + totalPuntos + "WHERE numt = " + numt );
 		bbdd.update(con, "UPDATE PRF_Client SET TOTPUNTS = (SELECT TOTPUNTS FROM PRF_Client WHERE numcli = " + numClient + ") + " + totalPuntos + " WHERE numcli = " + numClient);
+		
 		System.out.println();
 		System.out.println("-----Total de la compra: " + String.format("%.2f", precioTotal) + "€");
 	    System.out.println("-----Puntos agregados al usuario: " + totalPuntos);
@@ -236,7 +241,7 @@ private static void finalitzarCompra() {
 
 	
 
-private static void mostrarLineas() {
+public static void mostrarLineas(int numt, int numlin) {
 	String x[] = {"NUMLIN"};
 	String[] b = bbdd.select(con, "SELECT NUMLIN FROM PRF_LINTIQ WHERE numtiq = " + numt, x);
 	
