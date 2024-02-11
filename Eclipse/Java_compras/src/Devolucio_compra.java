@@ -44,9 +44,13 @@ public static void main(String[] args) {
 		        	while (continuar) {
 		        		int respuesta = nova_compra.getInput(scan);
 		        		if (respuesta == 1) {
+		        			
+		        			bbdd.update(con, "UPDATE PRF_CLIENT SET totpunts = totpunts - (SELECT punts_tiq FROM PRF_TIQUET WHERE numt = "+numTiquet+") WHERE numcli = (SELECT cliente FROM PRF_TIQUET WHERE numt = "+numTiquet+")");
 		        			System.out.println("Se eliminarán todas las lineas y el tiquet");
 		        			bbdd.delete(con, "DELETE FROM PRF_LINTIQ WHERE numtiq = " + numTiquet);
 		        			bbdd.delete(con, "DELETE FROM PRF_TIQUET WHERE numt = " + numTiquet);
+		        			
+		        			
 		        			continuar = false;
 		        		}else if (respuesta == 2) {
 		        			System.out.println("Se cancela el delete");
@@ -59,7 +63,7 @@ public static void main(String[] args) {
 		        	menu.main(args);
 				
 		        }else {
-	                System.out.println("El producto no existe");
+	                System.out.println("El ticket no existe");
 				}
         
 
