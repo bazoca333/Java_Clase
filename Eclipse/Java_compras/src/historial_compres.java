@@ -50,7 +50,6 @@ public class historial_compres {
     	String[] tiqOrder = new String[Integer.parseInt(checkTiq[0])];
     	
     	for (int i = 0; i < Integer.parseInt(checkTiq[0]); i++) {
-    		System.out.println("SELECT numt, rnk FROM (SELECT numt, RANK() OVER (ORDER BY numt) AS rnk FROM PRF_TIQUET WHERE DATAT >= TO_DATE('"+ fechaInicioStr +"', 'DD/MM/YYYY') AND DATAT < TO_DATE('"+ fechaFinalStr +"', 'DD/MM/YYYY') + INTERVAL '1' DAY) WHERE rnk = "+(i+1));
         	String[] ordenar = bbdd.select(con, "SELECT numt, rnk FROM (SELECT numt, RANK() OVER (ORDER BY numt) AS rnk FROM PRF_TIQUET WHERE DATAT >= TO_DATE('"+ fechaInicioStr +"', 'DD/MM/YYYY') AND DATAT < TO_DATE('"+ fechaFinalStr +"', 'DD/MM/YYYY') + INTERVAL '1' DAY) WHERE rnk = "+(i+1), x);
     		tiqOrder[i] = ordenar[0];
 		}
