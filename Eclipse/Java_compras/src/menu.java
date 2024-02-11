@@ -33,24 +33,28 @@ public class menu {
 		System.out.println("MENÚ");
 		System.out.println("1. Nova compra");
 		System.out.println("2. Devolució d’una compra");
-		System.out.println("3. Consulta de punts");	
-		System.out.println("4. Consultar d’historial de compres");
-		System.out.println("5. Sortir");
+		System.out.println("3. Consultar d’historial de compres");
+		System.out.println("4. Sortir");
 		System.out.println("----------------------------------------------------------");
 
-
-		int eleccion = nova_compra.getInput(scan);
-		switch (eleccion) {
-		case 1:
-			nova_compra.main(args);
-			break;
-
-		case 2:
-			Devolucio_compra.main(args);
-			break;
-		default:
-			break;
+		boolean cn = true;
+		while (cn) {
+			int eleccion = nova_compra.getInput(scan);
+			if (eleccion == 1) {
+				nova_compra.main(args);
+			}else if (eleccion == 2) {
+				Devolucio_compra.main(args);
+			}else if (eleccion == 3) {
+				historial_compres.main(args);
+			}else  if (eleccion == 4){
+				System.out.println("Vuelva pronto");
+				cn = false;
+			}else {
+				System.out.println("Escoja una opción válida");
+			}
 		}
+		
+		
 //		String[] a = {"IDCLIENTE", "NOMBRE"};
 //		bbdd.print(con, "SELECT * FROM CLIENTES", a);
 	

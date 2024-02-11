@@ -18,7 +18,8 @@ public class historial_compres {
         fechaFinal = validarFechas("Dame una fecha final (formato dd/MM/yyyy): ");
 
         // Mostrar tickets
-        mostrarTickets(5, 10);  // Parámetros de ejemplo, reemplázalos con los valores reales
+        mostrarTickets();
+        menu.main(args);
     }
 
     private static Date validarFechas(String mensaje) {
@@ -40,7 +41,7 @@ public class historial_compres {
         return fecha;
     }
 
-    public static void mostrarTickets(int numt, int numlin) {
+    public static void mostrarTickets() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fechaInicioStr = dateFormat.format(fechaInicio);
         String fechaFinalStr = dateFormat.format(fechaFinal);

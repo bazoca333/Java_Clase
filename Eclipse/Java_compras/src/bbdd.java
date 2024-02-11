@@ -67,7 +67,7 @@ public class bbdd {
 			Statement st = con.createStatement();
 			st.execute(sql);
 			
-			System.out.println("Update hecho correctamente");
+			//System.out.println("Update hecho correctamente");
 		} catch (SQLException e) {
 			System.out.println("Ha habido un error en el Update " + e);
 		}
@@ -84,7 +84,7 @@ public class bbdd {
 			Statement st = con.createStatement();
 			st.execute(sql);
 			
-			System.out.println("Delete hecho correctamente");
+			//System.out.println("Delete hecho correctamente");
 		} catch (SQLException e) {
 			System.out.println("Ha habido un error en el Delete " + e);
 		}
