@@ -57,7 +57,7 @@ public class historial_compres {
                 
         //Imprimo los registros individualmente (por estetica)
         for (int i = 0; i < Integer.parseInt(checkTiq[0]) ; i++) {
-            System.out.println("-------Ticket número " + (i + 1) + "-------");
+            System.out.println("-------Ticket número " + (tiqOrder[i]) + "-------");
             String y[] = {"NUMT", "DATAT", "IDE", "CLIENTE", "IMPORT_TOT", "PUNTS_TIQ"};
 
             bbdd.print(con, "SELECT NUMT, DATAT, IDE, CLIENTE, IMPORT_TOT, PUNTS_TIQ FROM PRF_TIQUET WHERE DATAT >= TO_DATE('"
