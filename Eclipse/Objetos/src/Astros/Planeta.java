@@ -35,12 +35,19 @@ public class Planeta extends Astro {
 	}
 	
 	public void añadirSatelites(Satelite s) {
-		
+		arraySatelites.add(s);
 	}
 
 	@Override
 	public void tieneElementos() {
-		
+		if (arraySatelites.size() > 0) {
+			System.out.println("No hay ningún satélite en órbita");
+		}else {
+			System.out.println("Satélites en órbita:");
+			for(Satelite s : arraySatelites) {
+				System.out.println(s.nombre);
+			}
+		}
 		
 	}
 }
