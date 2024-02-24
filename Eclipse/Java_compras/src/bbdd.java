@@ -1,6 +1,6 @@
 import java.sql.*;
 
-
+//Trabajo de mierda
 /**
  * Clase que proporciona métodos para interactuar con una base de datos Oracle.
  */
