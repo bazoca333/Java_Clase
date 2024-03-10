@@ -1,38 +1,52 @@
 package Biblioteca;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
+	public static ArrayList<materialL> arraymaterialL = new ArrayList<>();
 
 	public static void main(String[] args) {
-		
-		//Menu amb ifs o switch case o lo q sigui per nar fent les dif accions(imporar un desde el projecte de BBDD y modificar)
-//		
-//		Libro test1_libro = new Libro ("L00001", "titulo_generico", "Perro sanche" , "politica", false);
-//		
-//		Articulo test1_articulo = new Articulo ("A00001", "titulo_generico", "Pablo motos", "fantasia", true);
-//		
-//		Revista test1_revista = new Revista ("R00001", "titulo_generico", "Santi abascal", "gastronomia", 10.99);
-//		ArrayList<materialL> arraymaterialL = new ArrayList<>();
-//		arraymaterialL.add(test1_libro);
-//		 arraymaterialL.add(test1_articulo);
-//		 arraymaterialL.add(test1_revista);
-//		 
-		
-		//Test Álvaro
-		Articulo a = new Articulo("1a", "berserk", "mi padre", "seinen", true);
-		
-		System.out.println("TEST DISPONIBLE");
-		a.disponible();
-		a.setDisponible(false);
-		System.out.println("TEST DISPONIBLE FALSO");
-		a.disponible();
-		
-		Revista r = new Revista("1b", "Revistzoca", "bazoka", "comedia", 3.5);
-		System.out.println("CALCULAR PRECIO REVISTA");
-		System.out.println(r.calcularPrecio(4));
-		System.out.println("El precio era: " + r.getPrecio());
-		
+		boolean fin = false;
+		Scanner scan = new Scanner(System.in);
 
+		while (fin == false) {
+			System.out.println("--------MENU--------");
+			System.out.println("1--> Buscar material");
+			System.out.println("2--> Manejar material");
+			System.out.println("3--> Reservas");
+			System.out.println("4--> Salir");
+			System.out.println("--------MENU--------");
+
+			int elección = scan.nextInt();
+
+			if (elección == 1) {
+				System.out.println("--------BUSCAR--------");
+				System.out.println("1--> Buscar por titulo");
+				System.out.println("2--> Buscar por autor");
+				System.out.println("3--> Buscar por tematica");
+				System.out.println("--------BUSCAR--------");
+				int eleccion_buscar = scan.nextInt();
+				if (eleccion_buscar == 1) {
+					buscar.buscarMaterialnombre();
+				} else if (eleccion_buscar == 2) {
+					buscar.buscarMaterialautor();
+				} else if (eleccion_buscar == 3) {
+					buscar.buscarMaterialtematica();
+				}
+
+			} else if (elección == 2) {
+				manejo.main(args);
+			} else if (elección == 3) {
+				Reservas.main(args);
+			} else if (elección == 4) {
+				System.out.println("Programa finalizado");
+				fin = true;
+			} else {
+				System.out.println("Erorr 404 vuelva a elegir");
+			}
+
+		}
 	}
 }
+//No permet eliminar contingut  java.util.ConcurrentModificationException
